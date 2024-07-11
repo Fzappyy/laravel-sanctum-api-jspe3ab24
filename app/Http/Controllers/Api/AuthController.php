@@ -36,10 +36,9 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        // Issue a personal access token
-        // $token = $user->createToken('auth_token')->plainTextToken;
-        return redirect('/login');
-        // return response()->json(['token' => $token], 201);
+        $token = $user->createToken('auth_token')->plainTextToken;
+        // return redirect('/login');
+        return response()->json(['token' => $token], 201);
     }
     public function login(Request $request)
     {
@@ -59,11 +58,10 @@ class AuthController extends Controller
         $user = $request->user();
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->plainTextToken;
-        return redirect('/logout');
-        // return response()->json([
-        //     'accessToken' => $token,
-        //     'token_type' => 'Bearer',
-        // ]);
+        return response()->json([
+            'accessToken' => $token,
+            'token_type' => 'Bearer',
+        ]);
     }
     public function logout(Request $request)
     {
